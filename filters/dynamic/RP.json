@@ -1,0 +1,1 @@
+{"format_version":2,"header":{"name":"Digital Market","description":"Buy and sell resources from a shop","uuid":"588c25c8-3cbb-4d47-bcb2-41088b2a3c40","min_engine_version":[1,21,100],"version":"1.0.0"},"modules":[{"type":"resources","uuid":"1ddf476f-7e92-46a0-aa07-4f70afd35c30","version":"1.0.0"}],"dependencies":[{"uuid":"e40b8e70-6808-4de0-9237-65bb786a9831","version":"1.0.0"}]}

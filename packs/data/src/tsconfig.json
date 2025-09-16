@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "target": "es2022",
+        "module": "nodenext",
+        "moduleResolution": "nodenext",
+        "strict": true,
+        "skipLibCheck": true,
+        "allowJs": true,
+        "rootDir": ".",
+        "outDir": "../../BP/scripts/",
+        "paths": {
+            "@chestui/*": ["./modules/chestui/*"]
+        }
+    }
+}
