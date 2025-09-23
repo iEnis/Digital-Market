@@ -1,0 +1,20 @@
+{
+    "format_version": "1.21.101",
+    "minecraft:block": {
+        "description": {
+            "identifier": "digitalmarket:block3"
+        },
+        "components": {
+            "minecraft:geometry": "minecraft:geometry.full_block",
+            "minecraft:material_instances": {
+                "*": {
+                    "texture": "spruce_log_top",
+                    "render_method": "alpha_test"
+                }
+            },
+            "tag:digitalmarket:name:spruce_log": {},
+            "tag:digitalmarket:texture:textures:blocks:log_spruce_top": {},
+            "tag:digitalmarket:price:300": {}
+        }
+    }
+}

@@ -10,6 +10,6 @@ export const data = {
     sourcemap: false,
     logLevel: "info",
     alias: {
-        "@chestui": "./modules/chestui"
+        "@chestui": path.join(import.meta.dirname, "../../packs/data/src/modules/chestui")
     }
 };

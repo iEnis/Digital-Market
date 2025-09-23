@@ -1,8 +1,9 @@
+import { ItemTypes } from "@minecraft/server";
 /**
  * Turns the logic for inventory slots on/off. Only set this to false if you have disabled inventory in RP/ui/_global_variables.json side!
  * Disabling this may also reduce form opening lag a bit.
  */
-export const inventory_enabled = true;
+export const inventory_enabled = false;
 
 type cc = {
     [x: string]: {
@@ -28,6 +29,15 @@ export const custom_content: cc = {
 	},
 	*/
 };
+try {
+    for (const type of ItemTypes.getAll()) {
+    if (type.id.startsWith("minecraft:")) continue;
+    custom_content[type.id] = {
+        texture: type.id,
+        type: "item",
+    };
+}
+} catch (e) {}
 //Blocks are excluded from the count, as they do not shift vanilla IDs.
 export const number_of_custom_items = Object.values(custom_content).filter((v) => v.type === "item").length;
 export const custom_content_keys = new Set(Object.keys(custom_content));
