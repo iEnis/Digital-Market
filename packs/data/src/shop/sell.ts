@@ -26,6 +26,7 @@ export default function sell(player: Player) {
         container.setItem(slot, undefined);
         const price = !!info?.sell ? info.sell : Math.floorBigInt(info.price, CONFIG.defaultDivider) * BigInt(item.amount);
         player.digitalmarket.addCredits(price);
+        player.sendMessage(`Sold '${info.name}' for ${price} Credits`);
         player.playSound("random.levelup");
     });
 }
@@ -38,7 +39,9 @@ function manage(form: ChestFormData, container: Container, i: number, realIndex:
     const price = !!info?.sell ? info.sell : Math.floorBigInt(info.price ?? 1n, CONFIG.defaultDivider) * BigInt(item.amount);
     const lore = ["", "§6Sell Price:", `§6${price} Credits`];
     if (price !== info.price)
-        lore.push(...["", "§eSell Price per item:", `§e${Math.floorBigInt(info.price ?? 1n, CONFIG.defaultDivider)} Credits`]);
+        lore.push(
+            ...["", "§eSell Price per item:", `§e${Math.floorBigInt(info.price ?? 1n, CONFIG.defaultDivider)} Credits`],
+        );
 
     form.button(i, info.texture, info.name, lore, item.amount);
 }

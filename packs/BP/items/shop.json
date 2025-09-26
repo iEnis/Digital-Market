@@ -10,14 +10,7 @@
         "components": {
             "minecraft:max_stack_size": 1,
             "digitalmarket:shop": {},
-            "minecraft:icon": "book_written",
-            "minecraft:tags": {
-                "tags": [
-                    "digitalmarket:name:shop",
-                    "digitalmarket:price:10",
-                    "digitalmarket:texture:textures:items:book_written"
-                ]
-            }
+            "minecraft:icon": "book_written"
         }
     }
 }

@@ -9,12 +9,13 @@ Declare your stuff using tags inside your blocks and items
 item names should be formatted in lowercase snakecase and will be converted to titlecase in runtime
 "test_item" => "Test Item"
 
-textures should use ":" instead of "/", also only panes will be displayed (2d, also for blocks)
-(you can use "/" for only items if you wish but blocks only work with ":" )
+textures should use ":" instead of "/" for their path, also it will only display textures and not block models
+(you can use "/" only for items if you wish but blocks only work with ":" )
 
 like this
 
 Items:
+
 ```jsonc
 {
     "format_version": "1.21.101",
@@ -42,6 +43,7 @@ Items:
 ```
 
 Blocks:
+
 ```jsonc
 {
     "format_version": "1.21.101",

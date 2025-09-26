@@ -5,30 +5,35 @@ Object.defineProperty(Player.prototype, "digitalmarket", {
         const player: Player = this;
         return {
             getCredits() {
-                let cur = player.getDynamicProperty("digitalmarket");
+                let cur = player.getDynamicProperty("digitalmarket:credits");
                 if (typeof cur !== "string") cur = "0";
                 return BigInt(cur);
             },
             hasCredits(amount) {
-                let cur = player.getDynamicProperty("digitalmarket");
+                amount = BigInt(amount);
+                let cur = player.getDynamicProperty("digitalmarket:credits");
                 if (typeof cur !== "string") cur = "0";
-                return BigInt(cur) >= amount;
+                const diff = amount - BigInt(cur);
+                return diff > 0 ? diff : true;
             },
             addCredits(amount) {
-                let cur = player.getDynamicProperty("digitalmarket");
+                amount = BigInt(amount);
+                let cur = player.getDynamicProperty("digitalmarket:credits");
                 if (typeof cur !== "string") cur = "0";
                 const res = BigInt(cur) + amount;
                 player.setDynamicProperty("digitalmarket:credits", res.toString());
                 return res;
             },
             removeCredits(amount) {
-                let cur = player.getDynamicProperty("digitalmarket");
+                amount = BigInt(amount);
+                let cur = player.getDynamicProperty("digitalmarket:credits");
                 if (typeof cur !== "string") cur = "0";
                 const res = BigInt(cur) - amount;
                 player.setDynamicProperty("digitalmarket:credits", res.toString());
                 return res;
             },
             setCredits(amount) {
+                amount = BigInt(amount);
                 player.setDynamicProperty("digitalmarket:credits", amount.toString());
                 return amount;
             },
@@ -46,25 +51,25 @@ interface digitalmarketPlayer {
      * @param amount amount to check
      * @returns if he has enough
      */
-    hasCredits(amount: bigint): boolean;
+    hasCredits(amount: bigint | number): true | bigint;
     /**
      * Adds Credits to the Player
      * @param amount amount to add
      * @returns the new amount of credits
      */
-    addCredits(amount: bigint): bigint;
+    addCredits(amount: bigint | number): bigint;
     /**
      * Removes Credits from the Player
      * @param amount amount to remove
      * @returns the new amount of credits
      */
-    removeCredits(amount: bigint): bigint;
+    removeCredits(amount: bigint | number): bigint;
     /**
      * Sets the amount of credits for the Player
      * @param amount amount to set
      * @returns the new amount of credits
      */
-    setCredits(amount: bigint): bigint;
+    setCredits(amount: bigint | number): bigint;
 }
 
 declare module "@minecraft/server" {

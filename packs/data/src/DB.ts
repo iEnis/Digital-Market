@@ -45,6 +45,7 @@ export type VanillaDigitalMarket = {
     typeId: string;
     texture: string;
     name: string;
+    filter?: string[];
 } & (onlyBuy | onlySell | normal);
 
 export type DigitalMarket = Base & (onlyBuy | onlySell | normal);
@@ -53,6 +54,7 @@ type Base = {
     typeId: string;
     texture: string;
     name: string;
+    filter?: string[];
 };
 
 type onlySell = {

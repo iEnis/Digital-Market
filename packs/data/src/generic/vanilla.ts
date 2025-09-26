@@ -1,112 +1,327 @@
-import DB from "../DB.js";
 import type { ForceDigitalMarket, VanillaDigitalMarket } from "../DB.js";
+import { colors, wood } from "./vanillaHelper.js";
+import DB from "../DB.js";
+
+const vanillaItems: VanillaDigitalMarket[] = [
+    ...colors({
+        name: "% Wool",
+        price: 3n,
+        typeId: "%_wool",
+        texture: "wool_colored_%",
+        path: "blocks",
+        filter: ["wool", "color"],
+    }),
+    ...colors({
+        name: "% Concrete",
+        price: 10n,
+        typeId: "%_concrete",
+        texture: "concrete_%",
+        path: "blocks",
+        filter: ["concrete"],
+    }),
+    ...colors({
+        name: "% Concrete Powder",
+        price: 10n,
+        typeId: "%_concrete_powder",
+        texture: "concrete_powder_%",
+        path: "blocks",
+        filter: ["concrete", "concrete_powder"],
+    }),
+    ...wood({ name: "% Log", price: 8n, typeId: "%_log", property: "normal", filter: ["log"] }),
+    ...wood({
+        name: "Stripped % Log",
+        price: 8n,
+        typeId: "stripped_%_log",
+        property: "stripped",
+        filter: ["log_stripped", "stripped", "stripped_log"],
+    }),
+    { name: "Diamond", price: 1000n, typeId: "diamond", texture: "items/diamond", filter: ["ore", "mineral"] },
+    {
+        name: "Iron Ingot",
+        price: 500n,
+        typeId: "iron_ingot",
+        texture: "items/iron_ingot",
+        filter: ["ingot", "ore", "mineral"],
+    },
+    {
+        name: "Copper Ingot",
+        price: 50n,
+        typeId: "copper_ingot",
+        texture: "items/copper_ingot",
+        filter: ["ingot", "ore", "mineral"],
+    },
+    {
+        name: "Gold Ingot",
+        price: 450n,
+        typeId: "gold_ingot",
+        texture: "items/gold_ingot",
+        filter: ["ingot", "ore", "mineral"],
+    },
+    {
+        name: "Lapis Lazuli",
+        price: 200n,
+        typeId: "lapis_lazuli",
+        texture: "items/lapis_lapzuli",
+        filter: ["ore", "mineral"],
+    },
+    { name: "Cobblestone", price: 2n, typeId: "cobblestone", texture: "blocks/cobblestone", filter: ["stone"] },
+    { name: "Stone", price: 3n, typeId: "stone", texture: "blocks/stone", filter: ["stone"] },
+    ...wood({ name: "% Planks", price: 2n, typeId: "%_planks", property: "planks", filter: ["planks"] }),
+    { name: "Bamboo Block", price: 3n, typeId: "bamboo_block", texture: "blocks/bamboo_block", filter: ["log"] },
+    {
+        name: "Stripped Bamboo Block",
+        price: 3n,
+        typeId: "stripped_bamboo_block",
+        texture: "blocks/stripped_bamboo_block",
+        filter: ["log_stripped", "stripped", "stripped_log"],
+    },
+    { name: "Bamboo Mosaic", price: 2n, typeId: "bamboo_mosaic", texture: "blocks/bamboo_mosaic", filter: ["planks"] },
+    { name: "Bamboo Planks", price: 2n, typeId: "bamboo_planks", texture: "blocks/bamboo_planks", filter: ["planks"] },
+    { name: "Sand", price: 3n, typeId: "sand", texture: "blocks/sand", sellable: false, filter: ["nature"] },
+    { name: "Red Sand", price: 3n, typeId: "red_sand", texture: "blocks/red_sand", sellable: false, filter: ["nature"] },
+    {
+        name: "Grass",
+        price: 2n,
+        typeId: "grass_block",
+        texture: "blocks/grass_side_carried",
+        sellable: false,
+        filter: ["nature"],
+    },
+    {
+        name: "Prismarine Shard",
+        price: 100n,
+        typeId: "prismarine_shard",
+        texture: "items/prismarine_shard",
+        filter: ["aquatic"],
+    },
+    {
+        name: "Prismarine Crystals",
+        price: 150n,
+        typeId: "prismarine_crystals",
+        texture: "items/prismarine_crystals",
+        filter: ["aquatic"],
+    },
+    { name: "Smooth Stone", price: 4n, typeId: "smooth_stone", texture: "blocks/stone_slab_top", filter: ["stone"] },
+    { name: "End Stone", price: 50n, sell: 5n, typeId: "end_stone", texture: "blocks/end_stone" },
+    { name: "Soul Sand", price: 300n, sell: 30n, typeId: "soul_sand", texture: "blocks/soul_sand" },
+    {
+        name: "Moss Block",
+        price: 200n,
+        sellable: false,
+        typeId: "moss_block",
+        texture: "blocks/moss_block",
+        filter: ["nature", "moss"],
+    },
+    {
+        name: "Pale Moss Block",
+        price: 300n,
+        sellable: false,
+        typeId: "pale_moss_block",
+        texture: "blocks/pale_moss_block",
+        filter: ["nature", "moss"],
+    },
+    { name: "Bread", price: 9n, typeId: "bread", texture: "items/bread", filter: ["food"] },
+    { name: "Wheat", price: 3n, typeId: "wheat", texture: "items/wheat", filter: ["crop"] },
+    {
+        name: "Wheat Seeds",
+        price: 10n,
+        typeId: "wheat_seeds",
+        texture: "items/seeds_wheat",
+        sellable: false,
+        filter: ["crop", "seed"],
+    },
+    {
+        name: "Melon Seeds",
+        price: 10n,
+        typeId: "melon_seeds",
+        texture: "items/seeds_melon",
+        sellable: false,
+        filter: ["crop", "seed"],
+    },
+    { name: "Melon", price: 10n, sell: 1n, typeId: "melon_slice", texture: "items/melon", filter: ["crop", "food"] },
+    {
+        name: "Pumpkin Seeds",
+        price: 10n,
+        typeId: "pumpkin_seeds",
+        texture: "items/seeds_pumpkin",
+        sellable: false,
+        filter: ["crop", "seed"],
+    },
+    { name: "Pumpkin", price: 10n, sell: 1n, typeId: "pumpkin", texture: "blocks/pumpkin_side", filter: ["crop"] },
+    {
+        name: "Carved Pumpkin",
+        price: 10n,
+        sell: 1n,
+        typeId: "carved_pumpkin",
+        texture: "blocks/pumpkin_face_off",
+        filter: ["crop"],
+    },
+    {
+        name: "Beetroot Seeds",
+        price: 10n,
+        typeId: "beetroot_seeds",
+        texture: "items/seeds_beetroot",
+        sellable: false,
+        filter: ["crop", "seed"],
+    },
+    { name: "Beetroot", price: 10n, sell: 1n, typeId: "beetroot", texture: "items/beetroot", filter: ["crop", "food"] },
+    {
+        name: "Potato",
+        price: 10n,
+        sell: 2n,
+        typeId: "potato",
+        texture: "items/potato",
+        filter: ["crop", "seed", "food"],
+    },
+    {
+        name: "Carrot",
+        price: 10n,
+        sell: 2n,
+        typeId: "carrot",
+        texture: "items/carrot",
+        filter: ["crop", "seed", "food"],
+    },
+    { name: "Apple", price: 10n, sell: 8n, typeId: "apple", texture: "items/apple", filter: ["crop", "food"] },
+    {
+        name: "Sweet Berries",
+        price: 1n,
+        sellable: false,
+        typeId: "sweet_berries",
+        texture: "items/sweet_berries",
+        filter: ["crop", "seed", "food"],
+    },
+    {
+        name: "Glow Berries",
+        price: 2n,
+        sellable: false,
+        typeId: "glow_berries",
+        texture: "items/glow_berries",
+        filter: ["crop", "seed", "food"],
+    },
+    {
+        name: "Raw Chicken",
+        price: 10n,
+        sellable: false,
+        typeId: "chicken",
+        texture: "items/chicken_raw",
+        filter: ["food", "raw"],
+    },
+    {
+        name: "Cooked Chicken",
+        price: 20n,
+        sell: 2n,
+        typeId: "cooked_chicken",
+        texture: "items/chicken_cooked",
+        filter: ["food", "cooked"],
+    },
+    {
+        name: "Raw Porkchop",
+        price: 10n,
+        sellable: false,
+        typeId: "porkchop",
+        texture: "items/porkchop_raw",
+        filter: ["food", "raw"],
+    },
+    {
+        name: "Cooked Porkchop",
+        price: 20n,
+        sell: 2n,
+        typeId: "cooked_porkchop",
+        texture: "items/porkchop_cooked",
+        filter: ["food", "cooked"],
+    },
+    {
+        name: "Raw Beef",
+        price: 10n,
+        sellable: false,
+        typeId: "beef",
+        texture: "items/beef_raw",
+        filter: ["food", "raw"],
+    },
+    {
+        name: "Cooked Beef",
+        price: 20n,
+        sell: 2n,
+        typeId: "cooked_beef",
+        texture: "items/beef_cooked",
+        filter: ["food", "cooked"],
+    },
+    {
+        name: "Raw Mutton",
+        price: 10n,
+        sellable: false,
+        typeId: "mutton",
+        texture: "items/mutton_raw",
+        filter: ["food", "raw"],
+    },
+    {
+        name: "Cooked Mutton",
+        price: 20n,
+        sell: 2n,
+        typeId: "cooked_mutton",
+        texture: "items/mutton_cooked",
+        filter: ["food", "cooked"],
+    },
+    {
+        name: "Raw Rabbit",
+        price: 10n,
+        sellable: false,
+        typeId: "rabbit",
+        texture: "items/rabbit_raw",
+        filter: ["food", "raw"],
+    },
+    {
+        name: "Cooked Rabbit",
+        price: 20n,
+        sell: 2n,
+        typeId: "cooked_rabbit",
+        texture: "items/rabbit_cooked",
+        filter: ["food", "cooked"],
+    },
+    { name: "Rabbit Foot", price: 100n, sell: 50n, typeId: "rabbit_foot", texture: "items/rabbit_foot" },
+    { name: "Raw Cod", price: 10n, sellable: false, typeId: "cod", texture: "items/fish_raw", filter: ["food", "raw"] },
+    {
+        name: "Cooked Cod",
+        price: 20n,
+        sell: 2n,
+        typeId: "cooked_cod",
+        texture: "items/fish_cooked",
+        filter: ["food", "cooked"],
+    },
+    {
+        name: "Raw Salmon",
+        price: 10n,
+        sellable: false,
+        typeId: "salmon",
+        texture: "items/fish_salmon_raw",
+        filter: ["food", "raw"],
+    },
+    {
+        name: "Cooked Salmon",
+        price: 20n,
+        sell: 2n,
+        typeId: "cooked_salmon",
+        texture: "items/fish_salmon_cooked",
+        filter: ["food", "cooked"],
+    },
+    { name: "Terracotta", price: 5n, typeId: "hardened_clay", texture: "blocks/hardened_clay", filter: ["terracotta"] },
+    ...colors({
+        name: "% Terracotta",
+        price: 5n,
+        typeId: "%_terracotta",
+        path: "blocks",
+        filter: ["color", "terracotta"],
+        texture: "hardened_clay_stained_%",
+    }),
+] as const;
 
 export default function vanilla() {
-    const vanilla: VanillaDigitalMarket[] = [
-        ...colors({ name: "% Wool", price: 3n, typeId: "%_wool", texture: "wool_colored_%", path: "blocks" }),
-        ...colors({ name: "% Concrete", price: 10n, typeId: "%_concrete", texture: "concrete_%", path: "blocks" }),
-        ...colors({
-            name: "% Concrete Powder",
-            price: 10n,
-            typeId: "%_concrete_powder",
-            texture: "concrete_powder_%",
-            path: "blocks",
-        }),
-        ...wood({ name: "% Log", price: 5n, typeId: "%_log", property: "normal" }),
-        ...wood({ name: "Stripped % Log", price: 5n, typeId: "stripped_%_log", property: "stripped" }),
-        { name: "Diamond", price: 1000n, typeId: "diamond", texture: "textures/items/diamond" },
-        { name: "Iron", price: 500n, typeId: "iron_ingot", texture: "textures/items/iron_ingot" },
-        { name: "Gold", price: 450n, typeId: "gold_ingot", texture: "textures/items/gold_ingot" },
-        { name: "Lapis Lazuli", price: 200n, typeId: "lapis_lazuli", texture: "textures/items/lapis_lapzuli" },
-        { name: "Cobblestone", price: 2n, typeId: "cobblestone", texture: "textures/blocks/cobblestone" },
-        { name: "Stone", price: 3n, typeId: "stone", texture: "textures/blocks/stone" },
-    ] as const;
-    for (const item of vanilla) {
+    for (const item of vanillaItems) {
         const typeId = "minecraft:" + item.typeId;
         DB.list[typeId] = {
             ...item,
             typeId,
+            texture: "textures/" + item.texture,
         } as ForceDigitalMarket;
     }
-}
-
-const colorList = [
-    "white",
-    "light_gray",
-    "gray",
-    "black",
-    "brown",
-    "red",
-    "orange",
-    "lime",
-    "green",
-    "cyan",
-    "light_blue",
-    "blue",
-    "purple",
-    "magenta",
-    "pink",
-] as const;
-
-function colors({
-    name,
-    typeId,
-    price,
-    path,
-    texture,
-    fix = true,
-}: {
-    name: string;
-    typeId: string;
-    price: bigint;
-    texture: string;
-    path: "blocks" | "items";
-    fix?: boolean;
-}) {
-    const items: VanillaDigitalMarket[] = [];
-    for (const type of colorList) {
-        const color = fix && type === "light_gray" ? "silver" : type;
-        items.push({
-            name: name.replace("%", type.toTitleCase()),
-            typeId: typeId.replace("%", type),
-            texture: `textures/${path}/${texture.replace("%", color)}`,
-            price,
-        });
-    }
-    return items;
-}
-
-type woodListValues = "stripped" | "normal";
-const woodList = {
-    oak: { stripped: "blocks/stripped_oak_log", normal: "blocks/log_oak" },
-    spruce: { stripped: "blocks/stripped_spruce_log", normal: "blocks/log_spruce" },
-    birch: { stripped: "blocks/stripped_birch_log", normal: "blocks/log_birch" },
-    jungle: { stripped: "blocks/stripped_jungle_log", normal: "blocks/log_jungle" },
-    acacia: { stripped: "blocks/stripped_acacia_log", normal: "blocks/log_acacia" },
-    dark_oak: { stripped: "blocks/stripped_dark_oak_log", normal: "blocks/log_big_oak" },
-    mangrove: { stripped: "blocks/stripped_mangrove_log_side", normal: "blocks/mangrove_log_side" },
-    cherry: { stripped: "blocks/stripped_cherry_log_side", normal: "blocks/cherry_log_side" },
-    pale_oak: { stripped: "blocks/stripped_pale_oak_log_side", normal: "blocks/pale_oak_log_side" },
-    crimson: {
-        stripped: "blocks/huge_fungus/stripped_crimson_stem_side",
-        normal: "ienis/digital_market/nether_logs/crimson_stem",
-    },
-    warped: {
-        stripped: "blocks/huge_fungus/stripped_warped_stem_side",
-        normal: "ienis/digital_market/nether_logs/warped_stem",
-    },
-} as const;
-
-function wood({ name, typeId, price, property }: { name: string; typeId: string; price: bigint; property: woodListValues }) {
-    const items: VanillaDigitalMarket[] = [];
-    for (const type of Object.keys(woodList)) {
-        const realTypeId = typeId.replace("%", type);
-        items.push({
-            name: name.replace("%", type.toTitleCase()),
-            typeId: realTypeId,
-            texture: "textures/" + woodList[type as keyof typeof woodList][property],
-            price,
-        });
-    }
-    return items;
 }

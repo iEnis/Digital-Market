@@ -1,8 +1,12 @@
 import vanilla from "./vanilla.js";
 import { world, BlockTypes, ItemTypes, ItemStack, BlockPermutation } from "@minecraft/server";
 import DB, { ForceDigitalMarket, LooseDigitalMarket } from "../DB.js";
+import CONFIG from "../CONFIG.js";
 
 world.afterEvents.worldLoad.subscribe(() => {
+    CONFIG.defaultDivider = BigInt(
+        (world.getDynamicProperty("digitalmarket:defaultDivider") as number | undefined) ?? CONFIG.defaultDivider,
+    );
     vanilla();
     const blocks = BlockTypes.getAll()
         .map((x) => x.id)
@@ -42,7 +46,10 @@ world.afterEvents.worldLoad.subscribe(() => {
         if (tags.length < 3 || !validate(tags)) continue;
 
         const market: LooseDigitalMarket = {
-            name: tags.find((x) => x.startsWith("name:"))!.replace("name:", "").toTitleCase(),
+            name: tags
+                .find((x) => x.startsWith("name:"))!
+                .replace("name:", "")
+                .toTitleCase(),
             texture: tags.find((x) => x.startsWith("texture:"))!.replace("texture:", ""),
             typeId: itemData.id,
         };
